@@ -1,0 +1,48 @@
+Classe entrada_produto
+private int ent_id;
+private int ent_id_produto;
+private int ent_qtde;
+private Double ent_valor_unitario;
+private Date ent_data_entrada;
+
+
+-- --------------------------------------------------------
+
+Classe estoque
+private int est_id;
+private int est_id_produto;
+private int est_qtde;
+private Double est_valor_unitario;
+
+-- --------------------------------------------------------
+
+Classe produto
+private int pro_id;
+private int pro_fkidtipo;
+private String pro_status;
+private String pro_descricao;
+private int pro_estoque_minimo;
+private int pro_estoque_maximo;
+
+-- --------------------------------------------------------
+
+Classe saida_produto
+private int sai_id;
+private int sai_id_produto;
+private int sai_qtde;
+private Double sai_valor_unitario;
+private Date sai_data_saida;
+
+-- --------------------------------------------------------
+
+Classe tipo_produto
+private int tip_id;
+private String tip_descricao;
+
+-- --------------------------------------------------------
+
+Classe usuario
+private int usu_id;
+private String usu_nome;
+private String usu_email;
+private String usu_senha;
