@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author mardio
  */
-public class Entrada_produto {
+public class Entrada_produtoDTO {
 private int ent_id;
 private int ent_id_produto;
 private int ent_qtde;

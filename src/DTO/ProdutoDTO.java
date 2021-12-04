@@ -9,7 +9,7 @@ package DTO;
  *
  * @author mardio
  */
-public class Produto {
+public class ProdutoDTO {
 
     private int pro_id;
     private int pro_fkidtipo;

@@ -9,7 +9,7 @@ package DTO;
  *
  * @author mardio
  */
-public class Usuario {
+public class UsuarioDTO {
 
     private int usu_id;
     private String usu_nome;

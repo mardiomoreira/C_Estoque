@@ -9,7 +9,7 @@ package DTO;
  *
  * @author mardio
  */
-public class Estoque {
+public class EstoqueDTO {
 
     private int est_id;
     private int est_id_produto;

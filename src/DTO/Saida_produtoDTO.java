@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author mardio
  */
-public class Saida_produto {
+public class Saida_produtoDTO {
 
     private int sai_id;
     private int sai_id_produto;

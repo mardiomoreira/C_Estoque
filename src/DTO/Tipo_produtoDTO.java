@@ -9,7 +9,7 @@ package DTO;
  *
  * @author mardio
  */
-public class Tipo_produto {
+public class Tipo_produtoDTO {
 
     private int tip_id;
     private String tip_descricao;
