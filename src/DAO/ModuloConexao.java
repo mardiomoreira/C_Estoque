@@ -5,6 +5,8 @@
  */
 package DAO;
 
+import UTIL.LerConfigUTIL;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,19 +18,22 @@ import javax.swing.JOptionPane;
  */
 public class ModuloConexao {
 
-    public static Connection conectar() {
+    public static Connection conectar() throws FileNotFoundException {
+        LerConfigUTIL objLerConfigUTIL = new LerConfigUTIL();
+        String Servidor = objLerConfigUTIL.configuracoes().get(0);
+        String Banco = objLerConfigUTIL.configuracoes().get(3);
         Connection conexao;
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/DB_Estoque2?characterEncoding=utf-8";
-        String user = "root";
-        String password = "1978";
+        String url = "jdbc:mysql://"+Servidor+":3306/"+Banco+"?characterEncoding=utf-8";
+        String user = objLerConfigUTIL.configuracoes().get(1);
+        String password = objLerConfigUTIL.configuracoes().get(2);
         try {
             conexao = DriverManager.getConnection(url, user, password);
-      //      JOptionPane.showMessageDialog(null, "Conectado!!");
+            //      JOptionPane.showMessageDialog(null, "Conectado!!");
             return conexao;
         } catch (SQLException e) {
             System.out.println(e);
-        //    JOptionPane.showMessageDialog(null, "<html>Não Conectado!!<br>Erro: "+e);
+            //    JOptionPane.showMessageDialog(null, "<html>Não Conectado!!<br>Erro: "+e);
             return null;
         }
     }

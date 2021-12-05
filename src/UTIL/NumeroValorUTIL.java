@@ -9,7 +9,7 @@ package UTIL;
  *
  * @author mardio
  */
-public class NumeroValor {
+public class NumeroValorUTIL {
 
     public static boolean validar(String text) {
         try {

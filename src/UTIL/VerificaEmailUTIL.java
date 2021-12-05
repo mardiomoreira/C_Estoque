@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author mardio
  */
-public class VerificaEmail {
+public class VerificaEmailUTIL {
 
     public static boolean isValidEmailAddressRegex(String email) {
         boolean isEmailIdValid = false;

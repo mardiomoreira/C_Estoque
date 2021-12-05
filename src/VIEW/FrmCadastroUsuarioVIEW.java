@@ -7,7 +7,7 @@ package VIEW;
 
 import DAO.UsuarioDAO;
 import DTO.UsuarioDTO;
-import UTIL.VerificaEmail;
+import UTIL.VerificaEmailUTIL;
 import javax.swing.JOptionPane;
 
 /**
@@ -253,7 +253,7 @@ public void limpar() {
         if (txtEmail.getText().isEmpty() || txtNome.getText().isEmpty() || txtSenha.getPassword() == null) {
             JOptionPane.showMessageDialog(null, "Todos os Campos são obrigatórios, favor preencher todos!!!");
         } else {
-            VerificaEmail objVerificaEmail = new VerificaEmail();
+            VerificaEmailUTIL objVerificaEmail = new VerificaEmailUTIL();
             boolean emailresult = objVerificaEmail.isValidEmailAddressRegex(email);
             if (emailresult == true) {
                 UsuarioDTO objUsuarioDTO = new UsuarioDTO();

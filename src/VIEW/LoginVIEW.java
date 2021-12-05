@@ -32,6 +32,7 @@ public class LoginVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         jpnBackGroud = new javax.swing.JPanel();
+        jlbConfig = new javax.swing.JLabel();
         btnLogar = new javax.swing.JButton();
         jlbEmail = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
@@ -44,6 +45,20 @@ public class LoginVIEW extends javax.swing.JFrame {
         setUndecorated(true);
 
         jpnBackGroud.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jlbConfig.setBackground(new java.awt.Color(255, 255, 255));
+        jlbConfig.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlbConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/config.png"))); // NOI18N
+        jlbConfig.setOpaque(true);
+        jlbConfig.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlbConfigMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jlbConfigMouseEntered(evt);
+            }
+        });
+        jpnBackGroud.add(jlbConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 40, 40));
 
         btnLogar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnLogar.setForeground(new java.awt.Color(255, 51, 51));
@@ -123,11 +138,13 @@ dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jlbSairMouseClicked
 
     private void jlbSairMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbSairMouseEntered
-jlbSair.setCursor(new Cursor(Cursor.HAND_CURSOR));        // TODO add your handling code here:
+jlbSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
+jlbSair.setToolTipText("Fechar Tela");
     }//GEN-LAST:event_jlbSairMouseEntered
 
     private void btnLogarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogarMouseEntered
-btnLogar.setCursor(new Cursor(Cursor.HAND_CURSOR));        // TODO add your handling code here:
+btnLogar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+btnLogar.setToolTipText("Logar no Sistema");
     }//GEN-LAST:event_btnLogarMouseEntered
 
     private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
@@ -152,6 +169,17 @@ btnLogar.setCursor(new Cursor(Cursor.HAND_CURSOR));        // TODO add your hand
             }
         }
     }//GEN-LAST:event_btnLogarActionPerformed
+
+    private void jlbConfigMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbConfigMouseEntered
+jlbConfig.setCursor(new Cursor(Cursor.HAND_CURSOR));
+jlbConfig.setToolTipText("Configurar Conexao com o Banco MYSQL");
+    }//GEN-LAST:event_jlbConfigMouseEntered
+
+    private void jlbConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbConfigMouseClicked
+FrmConfiguracaoVIEW objFrmConfiguracaoVIEW = new FrmConfiguracaoVIEW();
+objFrmConfiguracaoVIEW.setVisible(true);
+
+    }//GEN-LAST:event_jlbConfigMouseClicked
 
     /**
      * @param args the command line arguments
@@ -190,6 +218,7 @@ btnLogar.setCursor(new Cursor(Cursor.HAND_CURSOR));        // TODO add your hand
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogar;
+    private javax.swing.JLabel jlbConfig;
     private javax.swing.JLabel jlbEmail;
     private javax.swing.JLabel jlbImagem;
     private javax.swing.JLabel jlbSair;

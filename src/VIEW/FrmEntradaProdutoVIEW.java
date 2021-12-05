@@ -6,7 +6,7 @@
 package VIEW;
 
 import DAO.ModuloConexao;
-import UTIL.NumeroValor;
+import UTIL.NumeroValorUTIL;
 import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -157,7 +157,7 @@ public class FrmEntradaProdutoVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPesquisaKeyReleased
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        NumeroValor objNumeroValor = new NumeroValor();
+        NumeroValorUTIL objNumeroValor = new NumeroValorUTIL();
         if (objNumeroValor.validar(txtValorUnitario.getText()) == true) {
             //Recuperar Data
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
