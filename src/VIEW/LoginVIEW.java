@@ -8,6 +8,9 @@ package VIEW;
 
 import DAO.UsuarioDAO;
 import java.awt.Cursor;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -159,7 +162,12 @@ btnLogar.setToolTipText("Logar no Sistema");
             
         } else {
             UsuarioDAO objUsuarioDAO = new UsuarioDAO();
-            int resultado = objUsuarioDAO.logar(usuario, senha);
+            int resultado= -1;
+            try {
+                resultado = objUsuarioDAO.logar(usuario, senha);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(LoginVIEW.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (resultado > 0) {
                 FrmTelaPrincipal objFrmTelaPrincipal = new FrmTelaPrincipal();
                 objFrmTelaPrincipal.setVisible(true);

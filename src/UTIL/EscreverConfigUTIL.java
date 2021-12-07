@@ -26,7 +26,7 @@ public class EscreverConfigUTIL {
         //Fluxo de saida de um arquivo
         OutputStream os;
         try {
-            os = new FileOutputStream("config/conexao.config"); // nome do arquivo que será escrito
+            os = new FileOutputStream("conexao.config"); // nome do arquivo que será escrito
             Writer wr = new OutputStreamWriter(os); // criação de um escritor
             BufferedWriter br = new BufferedWriter(wr); // adiciono a um escritor de buffer
 

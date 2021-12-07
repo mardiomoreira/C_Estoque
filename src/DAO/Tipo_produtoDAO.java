@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class Tipo_produtoDAO {
     Connection Conn;
     PreparedStatement pstm;
 
-    public ResultSet listarTipo() {
+    public ResultSet listarTipo() throws FileNotFoundException {
         Conn = new ModuloConexao().conectar();
         String sql = "SELECT * FROM `tbl_tipo_produto` ORDER BY tip_descricao;";
         try {

@@ -5,17 +5,32 @@
  */
 package VIEW;
 
+import DAO.ModuloConexao;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author mardio
  */
 public class FrmTelaPrincipal extends javax.swing.JFrame {
 
+    Connection conexao = null;
+
     /**
      * Creates new form FrmTelaPrincipal
      */
     public FrmTelaPrincipal() {
         initComponents();
+
     }
 
     /**
@@ -28,47 +43,121 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmProduto = new javax.swing.JMenuItem();
         jmUsuario = new javax.swing.JMenuItem();
         jmEntradaProduto = new javax.swing.JMenuItem();
         jmSaidaProduto = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jmProdutopTipo = new javax.swing.JMenuItem();
+        jmEntrada = new javax.swing.JMenuItem();
+        jmSaidap = new javax.swing.JMenuItem();
+        jmRelEstoque = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jmSuporte = new javax.swing.JMenuItem();
         jmSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/backgroudInterno.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Cadastro");
 
         jmProduto.setText("Produto");
+        jmProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmProdutoActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmProduto);
 
         jmUsuario.setText("Usuario");
+        jmUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmUsuarioActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmUsuario);
 
         jmEntradaProduto.setText("Entrada de Produto");
+        jmEntradaProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEntradaProdutoActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmEntradaProduto);
 
         jmSaidaProduto.setText("Saída de Produto");
+        jmSaidaProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmSaidaProdutoActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmSaidaProduto);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu3.setText("Relatorio");
+
+        jmProdutopTipo.setText("Produto");
+        jmProdutopTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmProdutopTipoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmProdutopTipo);
+
+        jmEntrada.setText("Entrada");
+        jmEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEntradaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmEntrada);
+
+        jmSaidap.setText("Saída");
+        jmSaidap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmSaidapActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmSaidap);
+
+        jmRelEstoque.setText("Estoque");
+        jmRelEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmRelEstoqueActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmRelEstoque);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("Ajuda");
+
+        jmSuporte.setText("Suporte");
+        jmSuporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmSuporteActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmSuporte);
 
         jmSair.setText("Sair");
         jmSair.addActionListener(new java.awt.event.ActionListener() {
@@ -98,8 +187,129 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSairActionPerformed
-dispose();        // TODO add your handling code here:
+        dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jmSairActionPerformed
+
+    private void jmProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmProdutoActionPerformed
+        FrmProdutoVIEW objFrmProdutoVIEW;
+        try {
+            objFrmProdutoVIEW = new FrmProdutoVIEW();
+            objFrmProdutoVIEW.setVisible(true);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jmProdutoActionPerformed
+
+    private void jmUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmUsuarioActionPerformed
+        FrmCadastroUsuarioVIEW objFrmCadastroUsuarioVIEW = new FrmCadastroUsuarioVIEW();
+        objFrmCadastroUsuarioVIEW.setVisible(true);
+    }//GEN-LAST:event_jmUsuarioActionPerformed
+
+    private void jmEntradaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEntradaProdutoActionPerformed
+        FrmEntradaProdutoVIEW objFrmEntradaProdutoVIEW = new FrmEntradaProdutoVIEW();
+        objFrmEntradaProdutoVIEW.setVisible(true);
+    }//GEN-LAST:event_jmEntradaProdutoActionPerformed
+
+    private void jmSaidaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSaidaProdutoActionPerformed
+        FrmSaidaProdutoVIEW objFrmSaidaProdutoVIEW = new FrmSaidaProdutoVIEW();
+        objFrmSaidaProdutoVIEW.setVisible(true);
+    }//GEN-LAST:event_jmSaidaProdutoActionPerformed
+
+    private void jmSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSuporteActionPerformed
+        FrmEmailVIEW objFrmEmailVIEW = new FrmEmailVIEW();
+        objFrmEmailVIEW.setVisible(true);
+    }//GEN-LAST:event_jmSuporteActionPerformed
+
+    private void jmSaidapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSaidapActionPerformed
+        ModuloConexao objModuloConexao = new ModuloConexao();
+        try {
+            conexao = objModuloConexao.conectar();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão do Relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_NO_OPTION) {
+            //imorimindo relatório com o framework JasperReport
+            try {
+                //Usando a lasse JasperPrint para preparar a impressão
+                JasperPrint print = JasperFillManager.fillReport("saidap.jasper", null, conexao);
+                //a linha abaixo exibe o relatorio atraveés da Classe JasperVIEW
+                JasperViewer.viewReport(print, false);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+
+    }//GEN-LAST:event_jmSaidapActionPerformed
+
+    private void jmEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEntradaActionPerformed
+        ModuloConexao objModuloConexao = new ModuloConexao();
+        try {
+            conexao = objModuloConexao.conectar();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão do Relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_NO_OPTION) {
+            //imorimindo relatório com o framework JasperReport
+            try {
+                //Usando a lasse JasperPrint para preparar a impressão
+                JasperPrint print = JasperFillManager.fillReport("entradap.jasper", null, conexao);
+                //a linha abaixo exibe o relatorio atraveés da Classe JasperVIEW
+                JasperViewer.viewReport(print, false);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_jmEntradaActionPerformed
+
+    private void jmProdutopTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmProdutopTipoActionPerformed
+        ModuloConexao objModuloConexao = new ModuloConexao();
+        try {
+            conexao = objModuloConexao.conectar();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão do Relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_NO_OPTION) {
+            //imorimindo relatório com o framework JasperReport
+            try {
+                //Usando a lasse JasperPrint para preparar a impressão
+                JasperPrint print = JasperFillManager.fillReport("produtoPorTipo.jasper", null, conexao);
+                //a linha abaixo exibe o relatorio atraveés da Classe JasperVIEW
+                JasperViewer.viewReport(print, false);
+            } catch (JRException erro) {
+                System.out.println(erro);
+            }
+        }
+    }//GEN-LAST:event_jmProdutopTipoActionPerformed
+
+    private void jmRelEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmRelEstoqueActionPerformed
+        // Estoque.jasper
+                ModuloConexao objModuloConexao = new ModuloConexao();
+        try {
+            conexao = objModuloConexao.conectar();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão do Relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_NO_OPTION) {
+            //imorimindo relatório com o framework JasperReport
+            try {
+                //Usando a lasse JasperPrint para preparar a impressão
+                JasperPrint print = JasperFillManager.fillReport("Estoque.jasper", null, conexao);
+                //a linha abaixo exibe o relatorio atraveés da Classe JasperVIEW
+                JasperViewer.viewReport(print, false);
+            } catch (JRException erro) {
+                System.out.println(erro);
+            }
+        }
+    }//GEN-LAST:event_jmRelEstoqueActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,14 +347,21 @@ dispose();        // TODO add your handling code here:
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jmEntrada;
     private javax.swing.JMenuItem jmEntradaProduto;
     private javax.swing.JMenuItem jmProduto;
+    private javax.swing.JMenuItem jmProdutopTipo;
+    private javax.swing.JMenuItem jmRelEstoque;
     private javax.swing.JMenuItem jmSaidaProduto;
+    private javax.swing.JMenuItem jmSaidap;
     private javax.swing.JMenuItem jmSair;
+    private javax.swing.JMenuItem jmSuporte;
     private javax.swing.JMenuItem jmUsuario;
     // End of variables declaration//GEN-END:variables
 }

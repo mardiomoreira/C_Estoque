@@ -28,7 +28,7 @@ public class LerConfigUTIL {
     public ArrayList<String> configuracoes() throws FileNotFoundException {
         ArrayList<String> config = new ArrayList<>();
         config.clear();
-        FileInputStream stream = new FileInputStream("config/conexao.config");
+        FileInputStream stream = new FileInputStream("conexao.config");
         InputStreamReader reader = new InputStreamReader(stream);
         BufferedReader br = new BufferedReader(reader);
         try {

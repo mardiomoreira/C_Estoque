@@ -6,7 +6,10 @@
 package VIEW;
 
 import DAO.ModuloConexao;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -70,7 +73,11 @@ public class FrmTesteConexaoVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestarActionPerformed
-        testarConexao();
+        try {
+            testarConexao();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmTesteConexaoVIEW.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnTestarActionPerformed
 
     /**
@@ -113,7 +120,7 @@ public class FrmTesteConexaoVIEW extends javax.swing.JFrame {
     private javax.swing.JButton btnTestar;
     private javax.swing.JLabel lblImagem;
     // End of variables declaration//GEN-END:variables
-public void testarConexao() {
+public void testarConexao() throws FileNotFoundException {
         Connection con = new ModuloConexao().conectar();
         lblImagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         

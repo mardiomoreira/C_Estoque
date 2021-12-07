@@ -5,7 +5,9 @@
  */
 package DAO;
 
+import DTO.Entrada_produtoDTO;
 import DTO.ProdutoDTO;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,8 +26,9 @@ public class ProdutoDAO {
     ResultSet rs;
     ArrayList<ProdutoDTO> lista = new ArrayList<>();
     ArrayList<ProdutoDTO> listaProduto = new ArrayList<>();
+    ArrayList<Entrada_produtoDTO> listaEntrada_produtoDTO = new ArrayList<>();
 
-    public void cadastrarUsuario(ProdutoDTO objProdutoDTO) {
+    public void cadastrarUsuario(ProdutoDTO objProdutoDTO) throws FileNotFoundException {
         Conn = new ModuloConexao().conectar();
         String sql = "INSERT INTO tbl_produto(`pro_fkidtipo`,`pro_status`,`pro_descricao`,`pro_estoque_minimo`,`pro_estoque_maximo`)VALUES(?,?,?,?,?);";
         try {
@@ -43,13 +46,14 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null, "Erro ao Cadastrar Produto, favor contactar o administrador do sistema!!!");
         }
     }
-    public ArrayList<ProdutoDTO> PesquisarProduto(){
+
+    public ArrayList<ProdutoDTO> PesquisarProduto() throws FileNotFoundException {
         String sql = "SELECT * FROM `tbl_produto` WHERE `pro_status`='Ativado';";
         Conn = new ModuloConexao().conectar();
         try {
             pstm = Conn.prepareStatement(sql);
             rs = pstm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ProdutoDTO objProdutoDTO = new ProdutoDTO();
                 objProdutoDTO.setPro_id(rs.getInt("pro_id"));
                 objProdutoDTO.setPro_status(rs.getString("pro_status"));
@@ -62,5 +66,23 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null, "ProdutoDAO: " + erro);
         }
         return listaProduto;
+    }
+
+    public void cadastrarEntradaProduto(Entrada_produtoDTO objEntrada_produtoDTO) throws FileNotFoundException {
+        Conn = new ModuloConexao().conectar();
+        String sql = "INSERT INTO tbl_entrada_produto(`ent_id_produto`,`ent_qtde`,`ent_valor_unitario`,`ent_data_entrada`)VALUES(?,?,?,?);";
+        try {
+            pstm = Conn.prepareStatement(sql);
+            pstm.setInt(1, objEntrada_produtoDTO.getEnt_id_produto());
+            pstm.setInt(2, objEntrada_produtoDTO.getEnt_qtde());
+            pstm.setDouble(3, objEntrada_produtoDTO.getEnt_valor_unitario());
+            pstm.setDate(4, objEntrada_produtoDTO.getEnt_data_entrada());
+            pstm.execute();
+            pstm.close();
+            JOptionPane.showMessageDialog(null, "Entrada Cadastrado com Sucesso!!");
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar Entrada, favor contactar o administrador do sistema!!!");
+            System.out.println("ProdutoDAO: "+erro);
+        }
     }
 }

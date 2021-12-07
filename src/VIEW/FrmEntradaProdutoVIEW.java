@@ -6,6 +6,8 @@
 package VIEW;
 
 import DAO.ModuloConexao;
+import DAO.ProdutoDAO;
+import DTO.Entrada_produtoDTO;
 import UTIL.NumeroValorUTIL;
 import java.awt.Component;
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import net.proteanit.sql.DbUtils;
+import org.exolab.castor.types.Date;
 
 /**
  *
@@ -162,7 +165,17 @@ public class FrmEntradaProdutoVIEW extends javax.swing.JFrame {
             //Recuperar Data
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String DataEntrada = sdf.format(txtDataEntrada.getDate());
-            JOptionPane.showMessageDialog(null, DataEntrada);
+            Entrada_produtoDTO objEntrada_produtoDTO = new Entrada_produtoDTO();
+            objEntrada_produtoDTO.setEnt_id_produto(Integer.parseInt(txtIdProduto.getText()));
+            objEntrada_produtoDTO.setEnt_qtde(Integer.parseInt(txtQuantidade.getText()));
+            objEntrada_produtoDTO.setEnt_valor_unitario(Double.parseDouble(txtValorUnitario.getText()));
+            objEntrada_produtoDTO.setEnt_data_entrada(java.sql.Date.valueOf(DataEntrada));
+            ProdutoDAO objProdutoDAO = new ProdutoDAO();
+            try {
+                objProdutoDAO.cadastrarEntradaProduto(objEntrada_produtoDTO);
+            } catch (Exception erro) {
+                System.out.println(erro);
+            }
 
         } else {
             JOptionPane.showMessageDialog(null, "O valor Unitário deve ser somente numérico e separado por ponto no lugar da vígula");

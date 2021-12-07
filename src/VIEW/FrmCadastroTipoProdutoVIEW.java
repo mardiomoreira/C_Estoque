@@ -6,9 +6,12 @@
 package VIEW;
 
 import DAO.ModuloConexao;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -117,7 +120,11 @@ public class FrmCadastroTipoProdutoVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        cadastrarUsuario(txtTipoProduto.getText().toString());
+        try {
+            cadastrarUsuario(txtTipoProduto.getText().toString());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmCadastroTipoProdutoVIEW.class.getName()).log(Level.SEVERE, null, ex);
+        }
         limpar();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -168,7 +175,7 @@ public void limpar() {
         txtTipoProduto.setText("");
     }
 
-    public void cadastrarUsuario(String tipoProduto) {
+    public void cadastrarUsuario(String tipoProduto) throws FileNotFoundException {
         if (txtTipoProduto.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Campo tipo de Produto em branco, favor preencher!!!");
         } else {

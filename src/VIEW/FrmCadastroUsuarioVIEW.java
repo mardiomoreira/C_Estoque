@@ -8,6 +8,9 @@ package VIEW;
 import DAO.UsuarioDAO;
 import DTO.UsuarioDTO;
 import UTIL.VerificaEmailUTIL;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,7 +47,7 @@ public class FrmCadastroUsuarioVIEW extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtSenha = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jpBacgroud.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -184,7 +187,11 @@ public class FrmCadastroUsuarioVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        cadastrar();        // TODO add your handling code here:
+        try {
+            cadastrar();        // TODO add your handling code here:
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmCadastroUsuarioVIEW.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
@@ -246,7 +253,7 @@ public void limpar() {
         txtNome.requestFocus();
     }
 
-    public void cadastrar() {
+    public void cadastrar() throws FileNotFoundException {
         String email = txtEmail.getText();
         String nome = txtNome.getText();
         String senha = String.valueOf(txtSenha.getPassword());

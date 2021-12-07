@@ -8,9 +8,12 @@ package VIEW;
 import DAO.ProdutoDAO;
 import DAO.Tipo_produtoDAO;
 import DTO.ProdutoDTO;
+import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,7 +28,7 @@ public class FrmProdutoVIEW extends javax.swing.JFrame {
     /**
      * Creates new form FrmProdutoVIEW
      */
-    public FrmProdutoVIEW() {
+    public FrmProdutoVIEW() throws FileNotFoundException {
         initComponents();
         restaurarDadosComboBoxTipo();
     }
@@ -130,7 +133,11 @@ public class FrmProdutoVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        cadastrarProduto();
+        try {
+            cadastrarProduto();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmProdutoVIEW.class.getName()).log(Level.SEVERE, null, ex);
+        }
         limpar();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -168,7 +175,11 @@ limpar();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmProdutoVIEW().setVisible(true);
+                try {
+                    new FrmProdutoVIEW().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FrmProdutoVIEW.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -191,7 +202,7 @@ limpar();
     private javax.swing.JTextField txtEstoqueMinimo;
     private javax.swing.JTextField txtProduto;
     // End of variables declaration//GEN-END:variables
-public void restaurarDadosComboBoxTipo() {
+public void restaurarDadosComboBoxTipo() throws FileNotFoundException {
         try {
             Tipo_produtoDAO objTipo_produtoDAO = new Tipo_produtoDAO();
             ResultSet rs = objTipo_produtoDAO.listarTipo();
@@ -205,7 +216,7 @@ public void restaurarDadosComboBoxTipo() {
 
     }
 
-    public void cadastrarProduto() {
+    public void cadastrarProduto() throws FileNotFoundException {
         if (Status.getSelection() == null) {
             JOptionPane.showMessageDialog(null, "Status é um campo Obrigatorio!!!");
         } else {

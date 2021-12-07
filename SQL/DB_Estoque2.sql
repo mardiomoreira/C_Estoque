@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 04-Dez-2021 às 23:56
+-- Tempo de geração: 07-Dez-2021 às 20:33
 -- Versão do servidor: 10.5.12-MariaDB
 -- versão do PHP: 8.0.13
 
@@ -23,16 +23,6 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `DB_Estoque2` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `DB_Estoque2`;
 
-DELIMITER $$
---
--- Procedimentos
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AD_EntradaProdutoEstoque` (IN `idProduto` INT(10), IN `qtdeEntrada` INT(10), IN `ValoUnitario` DOUBLE)  INSERT INTO tbl_estoque(tbl_estoque.est_id_produto, tbl_estoque.est_qtde, tbl_estoque.est_valor_unitario)VALUES(idProduto, qtdeEntrada,ValoUnitario)$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AD_SaidaProdutoEstoque` (IN `idProduto` INT(10), IN `qtdeSaida` INT(10), IN `ValoUnitario` DOUBLE)  INSERT INTO tbl_estoque(tbl_estoque.est_id_produto, tbl_estoque.est_qtde, tbl_estoque.est_valor_unitario)VALUES(idProduto, qtdeSaida * -1,ValoUnitario)$$
-
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -47,13 +37,6 @@ CREATE TABLE `tbl_entrada_produto` (
   `ent_data_entrada` date DEFAULT NULL,
   `ent_datacad` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `tbl_entrada_produto`
---
-
-INSERT INTO `tbl_entrada_produto` (`ent_id`, `ent_id_produto`, `ent_qtde`, `ent_valor_unitario`, `ent_data_entrada`, `ent_datacad`) VALUES
-(2, 3, 22, 3.55, '2021-12-01', '2021-12-03 16:04:13');
 
 --
 -- Acionadores `tbl_entrada_produto`
@@ -79,14 +62,6 @@ CREATE TABLE `tbl_estoque` (
   `est_datacad` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `tbl_estoque`
---
-
-INSERT INTO `tbl_estoque` (`est_id`, `est_id_produto`, `est_qtde`, `est_valor_unitario`, `est_datacad`) VALUES
-(1, 3, 22, 3.55, '0000-00-00 00:00:00'),
-(2, 3, -22, 4.21, '2021-12-03 16:05:25');
-
 -- --------------------------------------------------------
 
 --
@@ -102,13 +77,6 @@ CREATE TABLE `tbl_produto` (
   `pro_estoque_maximo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `tbl_produto`
---
-
-INSERT INTO `tbl_produto` (`pro_id`, `pro_fkidtipo`, `pro_status`, `pro_descricao`, `pro_estoque_minimo`, `pro_estoque_maximo`) VALUES
-(3, 1, 'Ativado', 'Fanta', 10, 100);
-
 -- --------------------------------------------------------
 
 --
@@ -123,13 +91,6 @@ CREATE TABLE `tbl_saida_produto` (
   `sai_data_saida` date DEFAULT NULL,
   `sai_datacad` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `tbl_saida_produto`
---
-
-INSERT INTO `tbl_saida_produto` (`sai_id`, `sai_id_produto`, `sai_qtde`, `sai_valor_unitario`, `sai_data_saida`, `sai_datacad`) VALUES
-(1, 3, 22, 4.21, '2021-12-01', NULL);
 
 --
 -- Acionadores `tbl_saida_produto`
@@ -152,14 +113,6 @@ CREATE TABLE `tbl_tipo_produto` (
   `tip_descricao` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `tbl_tipo_produto`
---
-
-INSERT INTO `tbl_tipo_produto` (`tip_id`, `tip_descricao`) VALUES
-(1, 'Refrigerante'),
-(2, 'Eletro Domestico');
-
 -- --------------------------------------------------------
 
 --
@@ -179,7 +132,58 @@ CREATE TABLE `tbl_usuario` (
 --
 
 INSERT INTO `tbl_usuario` (`usu_id`, `usu_nome`, `usu_email`, `usu_senha`, `usu_datacad`) VALUES
-(1, 'Mardio Moreira', 'mardioba@gmail.com', '1978', '2021-12-04 19:42:46');
+(1, 'Mardio Moreira', 'admin@localhost.com', 'admin', '2021-12-05 19:01:16');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para vista `vw_estoqueproduto`
+-- (Veja abaixo para a view atual)
+--
+CREATE TABLE `vw_estoqueproduto` (
+`pro_id` int(11)
+,`pro_fkidtipo` int(11)
+,`pro_status` varchar(10)
+,`pro_descricao` varchar(50)
+,`pro_estoque_minimo` int(11)
+,`pro_estoque_maximo` int(11)
+,`tip_id` int(11)
+,`tip_descricao` varchar(70)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para vista `vw_produto`
+-- (Veja abaixo para a view atual)
+--
+CREATE TABLE `vw_produto` (
+`TipoProduto` varchar(70)
+,`pro_id` int(11)
+,`pro_fkidtipo` int(11)
+,`pro_status` varchar(10)
+,`pro_descricao` varchar(50)
+,`pro_estoque_minimo` int(11)
+,`pro_estoque_maximo` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para vista `vw_estoqueproduto`
+--
+DROP TABLE IF EXISTS `vw_estoqueproduto`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_estoqueproduto`  AS SELECT `tbl_produto`.`pro_id` AS `pro_id`, `tbl_produto`.`pro_fkidtipo` AS `pro_fkidtipo`, `tbl_produto`.`pro_status` AS `pro_status`, `tbl_produto`.`pro_descricao` AS `pro_descricao`, `tbl_produto`.`pro_estoque_minimo` AS `pro_estoque_minimo`, `tbl_produto`.`pro_estoque_maximo` AS `pro_estoque_maximo`, `tbl_tipo_produto`.`tip_id` AS `tip_id`, `tbl_tipo_produto`.`tip_descricao` AS `tip_descricao` FROM (`tbl_produto` join `tbl_tipo_produto` on(`tbl_produto`.`pro_fkidtipo` = `tbl_tipo_produto`.`tip_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para vista `vw_produto`
+--
+DROP TABLE IF EXISTS `vw_produto`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_produto`  AS SELECT `t`.`tip_descricao` AS `TipoProduto`, `p`.`pro_id` AS `pro_id`, `p`.`pro_fkidtipo` AS `pro_fkidtipo`, `p`.`pro_status` AS `pro_status`, `p`.`pro_descricao` AS `pro_descricao`, `p`.`pro_estoque_minimo` AS `pro_estoque_minimo`, `p`.`pro_estoque_maximo` AS `pro_estoque_maximo` FROM (`tbl_produto` `p` join `tbl_tipo_produto` `t` on(`p`.`pro_fkidtipo` = `t`.`tip_id`)) ;
 
 --
 -- Índices para tabelas despejadas
@@ -234,31 +238,31 @@ ALTER TABLE `tbl_usuario`
 -- AUTO_INCREMENT de tabela `tbl_entrada_produto`
 --
 ALTER TABLE `tbl_entrada_produto`
-  MODIFY `ent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ent_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_estoque`
 --
 ALTER TABLE `tbl_estoque`
-  MODIFY `est_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `est_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_produto`
 --
 ALTER TABLE `tbl_produto`
-  MODIFY `pro_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pro_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_saida_produto`
 --
 ALTER TABLE `tbl_saida_produto`
-  MODIFY `sai_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `sai_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_tipo_produto`
 --
 ALTER TABLE `tbl_tipo_produto`
-  MODIFY `tip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `tip_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_usuario`

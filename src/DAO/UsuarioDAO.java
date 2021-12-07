@@ -6,6 +6,7 @@
 package DAO;
 
 import DTO.UsuarioDTO;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class UsuarioDAO {
     ResultSet rs;
     ArrayList<UsuarioDTO> lista = new ArrayList<>();
 
-    public void cadastrarUsuario(UsuarioDTO objUsuarioDTO) {
+    public void cadastrarUsuario(UsuarioDTO objUsuarioDTO) throws FileNotFoundException {
         Conn = new ModuloConexao().conectar();
         String sql = "INSERT INTO tbl_usuario(`usu_nome`,`usu_email`,`usu_senha`)VALUES(?,?,?);";
         try {
@@ -42,7 +43,7 @@ public class UsuarioDAO {
         }
     }
 
-    public int logar(String usuario, String senha) {
+    public int logar(String usuario, String senha) throws FileNotFoundException {
         Conn = new ModuloConexao().conectar();
         String sql = "SELECT COUNT(*) AS resultado FROM `tbl_usuario` WHERE usu_email =? AND usu_senha =?;";
         String resultado = null;
